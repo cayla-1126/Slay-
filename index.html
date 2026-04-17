@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小牛书 - 随时随地分享你的牛人牛事</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #FE2C55;
+      --primary-dark: #E91E4F;
+      --bg: #FAFAFA;
+      --card-bg: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-sub: #7F8C8D;
+      --text-hint: #BDC3C7;
+      --border: #ECF0F1;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== 欢迎页 ========== */
+    .welcome-page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 0;
+    }
+    .welcome-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 30px 40px;
+      color: white;
+    }
+    .welcome-logo {
+      font-size: 72px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .welcome-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .welcome-slogan {
+      font-size: 16px;
+      opacity: 0.95;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+    .welcome-actions {
+      background: white;
+      border-radius: 30px 30px 0 0;
+      padding: 40px 30px 50px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+    }
+    .action-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 16px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 12px;
+    }
+    .action-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+    .action-btn.primary:active {
+      background: var(--primary-dark);
+      transform: scale(0.98);
+    }
+    .action-btn.secondary {
+      background: var(--bg);
+      color: var(--text-main);
+    }
+    .action-btn.secondary:active {
+      background: #f0f0f0;
+    }
+
+    /* ========== 注册/登录页 ========== */
+    .auth-page {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 30px;
+    }
+    .auth-page.active { display: flex; flex-direction: column; justify-content: center; }
+    .auth-card {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .auth-logo { font-size: 56px; margin-bottom: 16px; }
+    .auth-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .auth-subtitle {
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .form-input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+    .form-input:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+    .nickname-group {
+      position: relative;
+    }
+    .nickname-suffix {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-hint);
+      font-size: 15px;
+      pointer-events: none;
+    }
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-hint);
+      margin-top: 6px;
+    }
+    .auth-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+    .auth-btn:active {
+      background: var(--primary-dark);
+      transform: scale(0.98);
+    }
+    .auth-switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .auth-switch a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ========== 主应用 ========== */
+    .app-page { display: none; }
+    .app-page.active { display: block; }
+
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-logo { font-size: 24px; }
+    .header-title {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .user-avatar:active { transform: scale(0.9); }
+
+    .app-tabs {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      padding: 0 20px;
+      display: flex;
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+    }
+    .app-tab {
+      background: none;
+      border: none;
+      padding: 12px 0;
+      font-size: 15px;
+      color: var(--text-sub);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .app-tab.active {
+      color: var(--primary);
+      font-weight: 700;
+      border-bottom-color: var(--primary);
+    }
+
+    .app-main {
+      padding: 120px 12px 90px;
+    }
+    .posts-grid {
+      columns: 2;
+      column-gap: 10px;
+    }
+    .post-card {
+      break-inside: avoid;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .post-card:active {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .post-image {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .post-body {
+      padding: 10px 12px 12px;
+    }
+    .post-author {
+      font-size: 11px;
+      color: var(--text-hint);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .post-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .post-content {
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .post-time {
+      font-size: 11px;
+      color: var(--text-hint);
+    }
+    .like-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-hint);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .like-btn:active {
+      background: var(--bg);
+    }
+    .delete-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+      cursor: pointer;
+      display: none;
+      transition: all 0.2s;
+    }
+    .post-card.own .delete-btn { display: flex; align-items: center; justify-content: center; }
+    .delete-btn:active { transform: scale(0.9); }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-hint);
+    }
+    .empty-icon { font-size: 64px; margin-bottom: 16px; opacity: 0.5; }
+    .empty-text { font-size: 15px; }
+
+    .app-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 50%;
+      transform: translateX(calc(240px - 32px));
+      width: 56px;
+      height: 56px;
+      background: var(--primary);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255,107,107,0.4);
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    .app-fab:active {
+      transform: translateX(calc(240px - 32px)) scale(0.9);
+    }
+
+    /* ========== 发帖弹窗 ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      border-radius: 24px 24px 0 0;
+      padding: 16px 24px 40px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .modal-close {
+      background: var(--bg);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 16px;
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-empty {
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      background: var(--bg);
+      padding: 36px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      gap: 10px;
+      margin-bottom: 20px;
+      transition: all 0.2s;
+    }
+    .photo-empty:active { border-color: var(--primary); background: #fff5f5; }
+    .photo-empty-icon { font-size: 40px; }
+    .photo-empty-text { font-size: 15px; color: var(--text-sub); }
+    .photo-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .photo-strip::-webkit-scrollbar { display: none; }
+    .photo-thumb {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-thumb .remove-img {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-add {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 2px dashed var(--border);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .photo-add:active { border-color: var(--primary); }
+    .photo-add-icon { font-size: 24px; color: var(--text-hint); }
+    .photo-add-text { font-size: 11px; color: var(--text-hint); }
+    .post-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      font-size: 16px;
+      outline: none;
+      font-family: inherit;
+      color: var(--text-main);
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+    .post-input:focus { border-bottom-color: var(--primary); }
+    .post-input::placeholder { color: var(--text-hint); }
+    .post-input.title { font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+    .post-input.content { height: 100px; resize: none; font-size: 15px; margin-bottom: 24px; }
+    .post-publish-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .post-publish-btn:active {
+      background: var(--primary-dark);
+      transform: scale(0.98);
+    }
+
+    /* ========== Toast ========== */
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(44,62,80,0.9);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 400;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ========== 加载状态 ========== */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-hint);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 欢迎页 -->
+  <div class="welcome-page" id="welcomePage">
+    <div class="welcome-hero">
+      <div class="welcome-logo">🐮</div>
+      <div class="welcome-title">小牛书</div>
+      <div class="welcome-slogan">随时随地分享你的牛人牛事</div>
+    </div>
+    <div class="welcome-actions">
+      <button class="action-btn primary" id="goRegisterBtn">加入小牛书</button>
+      <button class="action-btn secondary" id="goLoginBtn">已有账号，去登录</button>
+    </div>
+  </div>
+
+  <!-- 注册页 -->
+  <div class="auth-page" id="registerPage">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">🐮</div>
+        <div class="auth-title">加入小牛书</div>
+        <div class="auth-subtitle">成为牛人社区的一员</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">用户名</label>
+        <input type="text" class="form-input" id="regUsername" placeholder="最多 8 个字符" maxlength="8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">密码</label>
+        <input type="password" class="form-input" id="regPassword" placeholder="设置一个密码">
+      </div>
+      <div class="form-group">
+        <label class="form-label">昵称</label>
+        <div class="nickname-group">
+          <input type="text" class="form-input" id="regNickname" placeholder="取个名字" maxlength="8" style="padding-right: 52px;">
+          <span class="nickname-suffix">牛人</span>
+        </div>
+        <div class="form-hint">你的昵称将显示为「XXX牛人」</div>
+      </div>
+      <button class="auth-btn" id="registerBtn">注册</button>
+      <div class="auth-switch">
+        已有账号？<a id="switchToLogin">去登录</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登录页 -->
+  <div class="auth-page" id="loginPage">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">🐮</div>
+        <div class="auth-title">欢迎回来</div>
+        <div class="auth-subtitle">继续分享你的牛人牛事</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">用户名</label>
+        <input type="text" class="form-input" id="loginUsername" placeholder="输入用户名">
+      </div>
+      <div class="form-group">
+        <label class="form-label">密码</label>
+        <input type="password" class="form-input" id="loginPassword" placeholder="输入密码">
+      </div>
+      <button class="auth-btn" id="loginBtn">登录</button>
+      <div class="auth-switch">
+        还没有账号？<a id="switchToRegister">去注册</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主应用 -->
+  <div class="app-page" id="appPage">
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="header-logo">🐮</span>
+        <span class="header-title">小牛书</span>
+      </div>
+      <div class="user-menu">
+        <div class="user-avatar" id="userAvatar" title="个人主页"></div>
+      </div>
+    </header>
+    <div class="app-tabs">
+      <button class="app-tab active" data-sort="latest">最新</button>
+      <button class="app-tab" data-sort="hot">最热</button>
+    </div>
+    <main class="app-main">
+      <div class="posts-grid" id="postsGrid">
+        <div class="loading">加载中...</div>
+      </div>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <div class="empty-icon">🌱</div>
+        <div class="empty-text">还没有帖子，来发第一条吧</div>
+      </div>
+    </main>
+    <button class="app-fab" id="addBtn">+</button>
+
+    <!-- 发帖弹窗 -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <span class="modal-title">发布笔记</span>
+          <button class="modal-close" id="closeBtn">✕</button>
+        </div>
+        <div id="photoArea"></div>
+        <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+        <input type="text" class="post-input title" id="titleInput" placeholder="添加标题">
+        <textarea class="post-input content" id="contentInput" placeholder="分享你的牛人牛事..."></textarea>
+        <button class="post-publish-btn" id="publishBtn">发布</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    // Firebase 配置
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, onSnapshot, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { getStorage, ref, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAE5HIRURXGoMIKwC5sw3mRndt-6giqttY",
+      authDomain: "littleslaybook.firebaseapp.com",
+      databaseURL: "https://littleslaybook-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "littleslaybook",
+      storageBucket: "littleslaybook.firebasestorage.app",
+      messagingSenderId: "572723180058",
+      appId: "1:572723180058:web:b60776e5ab5def4d2197a3",
+      measurementId: "G-8PRN8LRXTC"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const MAX_IMAGES = 9;
+    let selectedImages = [];
+    let currentUser = null;
+    let posts = [];
+    let sortMode = 'latest';
+
+    // 工具函数
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    function timeAgo(ts) {
+      const d = Date.now() - ts;
+      const m = Math.floor(d / 60000);
+      const h = Math.floor(d / 3600000);
+      const day = Math.floor(d / 86400000);
+      if (m < 1) return '刚刚';
+      if (m < 60) return m + '分钟前';
+      if (h < 24) return h + '小时前';
+      if (day < 30) return day + '天前';
+      return new Date(ts).toLocaleDateString('zh-CN');
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // 简单的密码哈希（实际项目应该用更安全的方法）
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // 页面切换
+    function showPage(pageId) {
+      document.querySelectorAll('.welcome-page, .auth-page, .app-page').forEach(p => {
+        p.style.display = 'none';
+        p.classList.remove('active');
+      });
+      const page = document.getElementById(pageId);
+      if (page) {
+        page.style.display = pageId === 'welcomePage' ? 'flex' : 'block';
+        page.classList.add('active');
+      }
+    }
+
+    // 欢迎页按钮
+    document.getElementById('goRegisterBtn').addEventListener('click', () => showPage('registerPage'));
+    document.getElementById('goLoginBtn').addEventListener('click', () => showPage('loginPage'));
+    document.getElementById('switchToLogin').addEventListener('click', () => showPage('loginPage'));
+    document.getElementById('switchToRegister').addEventListener('click', () => showPage('registerPage'));
+
+    // 注册
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+      const nickname = document.getElementById('regNickname').value.trim();
+
+      if (!username) { showToast('请输入用户名'); return; }
+      if (!password) { showToast('请输入密码'); return; }
+      if (!nickname) { showToast('请输入昵称'); return; }
+
+      try {
+        // 检查用户名是否已存在
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+          showToast('用户名已存在');
+          return;
+        }
+
+        // 创建用户
+        const passwordHash = await hashPassword(password);
+        const userDoc = await addDoc(collection(db, 'users'), {
+          username: username,
+          passwordHash: passwordHash,
+          nickname: nickname + '牛人',
+          createdAt: Date.now()
+        });
+
+        currentUser = {
+          id: userDoc.id,
+          username: username,
+          nickname: nickname + '牛人'
+        };
+
+        localStorage.setItem('xiaoniushu_user', JSON.stringify(currentUser));
+
+        showPage('appPage');
+        document.getElementById('userAvatar').textContent = nickname.charAt(0);
+        loadPosts();
+        showToast('注册成功！');
+      } catch (error) {
+        console.error('注册失败:', error);
+        showToast('注册失败，请重试');
+      }
+    });
+
+    // 登录
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!username) { showToast('请输入用户名'); return; }
+      if (!password) { showToast('请输入密码'); return; }
+
+      try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          showToast('用户名不存在');
+          return;
+        }
+
+        const userDoc = snapshot.docs[0];
+        const userData = userDoc.data();
+        const passwordHash = await hashPassword(password);
+
+        if (userData.passwordHash !== passwordHash) {
+          showToast('密码错误');
+          return;
+        }
+
+        currentUser = {
+          id: userDoc.id,
+          username: userData.username,
+          nickname: userData.nickname
+        };
+
+        localStorage.setItem('xiaoniushu_user', JSON.stringify(currentUser));
+
+        showPage('appPage');
+        document.getElementById('userAvatar').textContent = userData.nickname.charAt(0);
+        loadPosts();
+        showToast('欢迎回来！');
+      } catch (error) {
+        console.error('登录失败:', error);
+        showToast('登录失败，请重试');
+      }
+    });
+
+    // 检查是否已登录
+    const savedUser = localStorage.getItem('xiaoniushu_user');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      showPage('appPage');
+      document.getElementById('userAvatar').textContent = currentUser.nickname.charAt(0);
+      loadPosts();
+    }
+
+    // 加载帖子（实时监听）
+    function loadPosts() {
+      const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
+      onSnapshot(q, (snapshot) => {
+        posts = [];
+        snapshot.forEach((doc) => {
+          posts.push({ id: doc.id, ...doc.data() });
+        });
+        renderPosts();
+      });
+    }
+
+    // 渲染帖子
+    function renderPosts() {
+      let result = [...posts];
+      result.sort(sortMode === 'latest'
+        ? (a, b) => b.timestamp - a.timestamp
+        : (a, b) => (b.likes || 0) - (a.likes || 0)
+      );
+
+      const grid = document.getElementById('postsGrid');
+      const empty = document.getElementById('emptyState');
+
+      if (!result.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+
+      empty.style.display = 'none';
+      grid.innerHTML = result.map(p => {
+        const isOwn = currentUser && p.userId === currentUser.id;
+        return `
+          <div class="post-card ${isOwn ? 'own' : ''}" data-id="${p.id}">
+            <img class="post-image" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy">
+            ${isOwn ? `<button class="delete-btn" onclick="deletePost('${p.id}')">✕</button>` : ''}
+            <div class="post-body">
+              <div class="post-author">@${escapeHtml(p.author)}</div>
+              <div class="post-title">${escapeHtml(p.title)}</div>
+              <div class="post-content">${escapeHtml(p.content)}</div>
+              <div class="post-footer">
+                <span class="post-time">${timeAgo(p.timestamp)}</span>
+                <button class="like-btn">
+                  🤍 ${p.likes || 0}
+                </button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // 删除帖子
+    window.deletePost = async (postId) => {
+      if (!confirm('确定要删除这条帖子吗？')) return;
+      try {
+        await deleteDoc(doc(db, 'posts', postId));
+        showToast('删除成功');
+      } catch (error) {
+        console.error('删除失败:', error);
+        showToast('删除失败');
+      }
+    };
+
+    // 排序切换
+    document.querySelectorAll('.app-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        sortMode = tab.dataset.sort;
+        renderPosts();
+      });
+    });
+
+    // 弹窗控制
+    const overlay = document.getElementById('modalOverlay');
+    document.getElementById('addBtn').addEventListener('click', () => overlay.classList.add('open'));
+    document.getElementById('closeBtn').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeModal();
+    });
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      resetForm();
+    }
+
+    function resetForm() {
+      selectedImages = [];
+      document.getElementById('titleInput').value = '';
+      document.getElementById('contentInput').value = '';
+      document.getElementById('fileInput').value = '';
+      renderPhotoArea();
+    }
+
+    // 图片区域渲染
+    function renderPhotoArea() {
+      const area = document.getElementById('photoArea');
+      if (selectedImages.length === 0) {
+        area.innerHTML = `
+          <div class="photo-empty" id="photoEmptyBtn">
+            <div class="photo-empty-icon">📷</div>
+            <div class="photo-empty-text">添加图片</div>
+          </div>`;
+        document.getElementById('photoEmptyBtn').addEventListener('click', triggerFileInput);
+      } else {
+        const thumbs = selectedImages.map((src, i) => `
+          <div class="photo-thumb">
+            <img src="${src}" alt="图片${i + 1}">
+            <button class="remove-img" onclick="removeImage(${i})">✕</button>
+          </div>`).join('');
+        const addBtn = selectedImages.length < MAX_IMAGES
+          ? `<div class="photo-add" id="photoAddBtn">
+               <div class="photo-add-icon">＋</div>
+               <div class="photo-add-text">${selectedImages.length}/9</div>
+             </div>`
+          : '';
+        area.innerHTML = `<div class="photo-strip">${thumbs}${addBtn}</div>`;
+        if (selectedImages.length < MAX_IMAGES) {
+          document.getElementById('photoAddBtn').addEventListener('click', triggerFileInput);
+        }
+      }
+    }
+
+    function triggerFileInput() {
+      if (selectedImages.length >= MAX_IMAGES) {
+        showToast('最多上传 9 张图片');
+        return;
+      }
+      document.getElementById('fileInput').click();
+    }
+
+    // 图片选择
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', e => {
+      const files = Array.from(e.target.files);
+      const remaining = MAX_IMAGES - selectedImages.length;
+      const toLoad = files.slice(0, remaining);
+      if (files.length > remaining) showToast(`最多 9 张，已选前 ${remaining} 张`);
+
+      let loaded = 0;
+      toLoad.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          selectedImages.push(ev.target.result);
+          loaded++;
+          if (loaded === toLoad.length) renderPhotoArea();
+        };
+        reader.readAsDataURL(file);
+      });
+      fileInput.value = '';
+    });
+
+    window.removeImage = (idx) => {
+      selectedImages.splice(idx, 1);
+      renderPhotoArea();
+    };
+
+    // 发布帖子
+    document.getElementById('publishBtn').addEventListener('click', async () => {
+      const title = document.getElementById('titleInput').value.trim();
+      const content = document.getElementById('contentInput').value.trim();
+
+      if (!selectedImages.length) {
+        showToast('请至少上传一张图片');
+        return;
+      }
+      if (!title) {
+        showToast('请填写标题');
+        return;
+      }
+      if (!content) {
+        showToast('请填写正文');
+        return;
+      }
+
+      try {
+        showToast('发布中...');
+
+        // 上传第一张图片到 Storage
+        const imageRef = ref(storage, `posts/${Date.now()}.jpg`);
+        await uploadString(imageRef, selectedImages[0], 'data_url');
+        const imageUrl = await getDownloadURL(imageRef);
+
+        // 保存帖子到 Firestore
+        await addDoc(collection(db, 'posts'), {
+          title: title,
+          content: content,
+          image: imageUrl,
+          author: currentUser.nickname,
+          userId: currentUser.id,
+          timestamp: Date.now(),
+          likes: 0
+        });
+
+        closeModal();
+        showToast('发布成功 🎉');
+      } catch (error) {
+        console.error('发布失败:', error);
+        showToast('发布失败，请重试');
+      }
+    });
+
+    renderPhotoArea();
+  </script>
+</body>
+</html>
