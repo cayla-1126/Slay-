@@ -836,6 +836,11 @@
 
         localStorage.setItem('xiaoniushu_user', JSON.stringify(currentUser));
 
+        // 清空注册表单
+        document.getElementById('regUsername').value = '';
+        document.getElementById('regPassword').value = '';
+        document.getElementById('regNickname').value = '';
+
         showPage('appPage');
         document.getElementById('userAvatar').textContent = nickname.charAt(0);
         loadPosts();
